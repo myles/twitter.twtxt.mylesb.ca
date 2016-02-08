@@ -1,4 +1,3 @@
-argparse==1.4.0
 click==6.2
 Flask==0.10.1
 flask-appconfig==0.11.1
@@ -6,6 +5,7 @@ itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
 oauthlib==1.0.3
+pytz==2015.7
 requests==2.9.1
 requests-oauthlib==0.6.0
 six==1.10.0
