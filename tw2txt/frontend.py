@@ -1,9 +1,20 @@
 from flask import Blueprint, Response, current_app as app
 
+from flask_httpauth import HTTPDigestAuth
+
 import pytz
 import tweepy
 
 frontend = Blueprint('frontend', __name__)
+
+auth = HTTPDigestAuth()
+
+
+@auth.get_password
+def get_pw(username):
+    if username == app.config['BASIC_AUTH_USERNAME']:
+        return app.config['BASIC_AUTH_PASSWORD']
+    return None
 
 
 def get_tweets(username):
@@ -33,7 +44,8 @@ def index():
     return Response(''.join(twtxt), mimetype='text/plain')
 
 
-@frontend.route('/<username>')
+@frontend.route('/user/<username>')
+@auth.login_required
 def get_user_timeline(username):
     twtxt = []
 

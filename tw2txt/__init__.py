@@ -3,6 +3,7 @@ import os
 from flask import Flask
 
 from flask_appconfig import HerokuConfig
+from flask.ext.basicauth import BasicAuth
 
 from .frontend import frontend
 
@@ -14,9 +15,12 @@ def create_app(configfile=None):
 
     app.register_blueprint(frontend)
 
-    env_variables = ['TWITTER_USERNAME', 'TWITTER_CONSUMER_KEY',
+    app.basic_auth = BasicAuth(app)
+
+    env_variables = ['SECRET_KEY', 'TWITTER_USERNAME', 'TWITTER_CONSUMER_KEY',
                      'TWITTER_CONSUMER_SECRET', 'TWITTER_ACCESS_TOKEN_KEY',
-                     'TWITTER_ACCESS_TWOKEN_SECRET']
+                     'TWITTER_ACCESS_TWOKEN_SECRET', 'BASIC_AUTH_USERNAME',
+                     'BASIC_AUTH_PASSWORD', 'BASIC_AUTH_REALM']
 
     for variable in env_variables:
         app.config[variable] = os.environ.get(variable)
