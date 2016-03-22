@@ -38,7 +38,7 @@ def index():
     for tweet in get_tweets(app.config['TWITTER_USERNAME']):
         response = "{0}\t{1}\n".format(
                     pytz.utc.localize(tweet.created_at).isoformat(),
-                    tweet.text.replace('\n', ' '))
+                    tweet.text.replace('\n', ' ¶ '))
         twtxt.append(response)
 
     return Response(''.join(twtxt), mimetype='text/plain')
