@@ -64,12 +64,12 @@ def process_tweet(tweet):
     if tweet.retweeted:
         response_text = text.replace('\n', ' ¶ ')
         return "{0}\tRT @<{1} {2}> {3}\n".format(timestamp,
-                                                     retweet_screen_name,
-                                                     retweet_url,
-                                                     response_text)
+                                                 retweet_screen_name,
+                                                 retweet_url,
+                                                 response_text)
     else:
         return "{0}\t{1}\n".format(timestamp,
-                                       text.replace('\n', ' ¶ '))
+                                   text.replace('\n', ' ¶ '))
 
 
 @frontend.route('/')
