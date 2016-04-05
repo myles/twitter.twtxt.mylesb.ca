@@ -17,7 +17,7 @@ def create_app(configfile=None):
     env_variables = ['SECRET_KEY', 'TWITTER_USERNAME', 'TWITTER_CONSUMER_KEY',
                      'TWITTER_CONSUMER_SECRET', 'TWITTER_ACCESS_TOKEN_KEY',
                      'TWITTER_ACCESS_TWOKEN_SECRET', 'BASIC_AUTH_USERNAME',
-                     'BASIC_AUTH_PASSWORD', 'BASIC_AUTH_REALM']
+                     'BASIC_AUTH_PASSWORD', 'BASIC_AUTH_REALM', 'HEROKU_URL']
 
     for variable in env_variables:
         app.config[variable] = os.environ.get(variable)

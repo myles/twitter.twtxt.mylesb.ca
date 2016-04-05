@@ -1,4 +1,4 @@
-from flask import Blueprint, Response, current_app as app
+from flask import Blueprint, Response, url_for, current_app as app
 
 from flask_httpauth import HTTPDigestAuth
 
@@ -36,9 +36,18 @@ def index():
     twtxt = []
 
     for tweet in get_tweets(app.config['TWITTER_USERNAME']):
-        response = "{0}\t{1}\n".format(
-                    pytz.utc.localize(tweet.created_at).isoformat(),
-                    tweet.text.replace('\n', ' ¶ '))
+        if tweet.retweeted:
+            screen_name = tweet.retweeted_status.author.screen_name
+            response = "{0}\tRT @<{1} {2}{3}> {4}\n".format(
+                pytz.utc.localize(tweet.created_at).isoformat(),
+                screen_name,
+                app.config['HEROKU_URL'].rstrip('/'),
+                url_for('frontend.get_user_timeline', username=screen_name),
+                tweet.retweeted_status.text.replace('\n', ' ¶ '))
+        else:
+            response = "{0}\t{1}\n".format(
+                        pytz.utc.localize(tweet.created_at).isoformat(),
+                        tweet.text.replace('\n', ' ¶ '))
         twtxt.append(response)
 
     return Response(''.join(twtxt), mimetype='text/plain')
