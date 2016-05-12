@@ -1,11 +1,13 @@
 from urllib.parse import urljoin
 
-from flask import Blueprint, Response, url_for, current_app as app
+from flask import Blueprint, Response, url_for, request, current_app as app
 
+from flask_piwikapi import FlaskRequest
 from flask_httpauth import HTTPDigestAuth
 
 import pytz
 import tweepy
+from piwikapi.tracking import PiwikTracker
 
 frontend = Blueprint('frontend', __name__)
 
@@ -72,12 +74,22 @@ def process_tweet(tweet):
                                    text.replace('\n', ' ¶ '))
 
 
+def track_visit(request, page_title):
+    piwik = PiwikTracker(app.config['PIWIK_SITE_ID'], FlaskRequest(request))
+    piwik.set_api_url(app.config['PIWIK_TRACKING_API_URL'])
+    piwik.set_token_auth(app.config['PIWIK_TOKEN_AUTH'])
+
+    piwik.do_track_page_view(page_title)
+
+
 @frontend.route('/')
 def index():
     twtxt = []
 
     for tweet in get_tweets(app.config['TWITTER_USERNAME']):
         twtxt.append(process_tweet(tweet))
+
+    track_visit(request, app.config['TWITTER_USERNAME'])
 
     return Response(''.join(twtxt), mimetype='text/plain')
 
@@ -88,5 +100,7 @@ def get_user_timeline(username):
 
     for tweet in get_tweets(username):
         twtxt.append(process_tweet(tweet))
+
+    track_visit(request, username)
 
     return Response(''.join(twtxt), mimetype='text/plain')
