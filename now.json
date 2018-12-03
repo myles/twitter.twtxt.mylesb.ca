@@ -1,2 +1,11 @@
-{}
+{
+  "version": 2,
+  "name": "twitter-twtxt",
+  "builds": [
+    {
+      "src": "tw2txt/frontend.py",
+      "use": "@now/python"
+    }
+  ]
+}
 

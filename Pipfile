@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "==6.3"
+flask-appconfig = "==0.11.1"
+flask-cache = "==0.13.1"
+flask-piwikapi = {editable = true, git = "https://github.com/myles/flask-piwikapi.git"}
+itsdangerous = "==0.24"
+oauthlib = "==1.0.3"
+piwik = "==0.5.1"
+piwikapi = "==0.3"
+pytz = "==2016.2"
+requests = "==2.9.1"
+requests-oauthlib = "==0.6.1"
+simplejson = "==3.8.2"
+six = "==1.10.0"
+tweepy = "==3.5.0"
+Flask = "==0.10.1"
+Flask-HTTPAuth = "==3.1.0"
+"Jinja2" = "==2.8"
+MarkupSafe = "==0.23"
+Werkzeug = "==0.11.4"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
